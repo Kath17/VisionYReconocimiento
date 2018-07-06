@@ -1,4 +1,4 @@
-/* reconocimiento basado en contar vertices
+/* reconocimiento basado en contar vertices 
    El reconocedor delta-D */
 
 database
@@ -47,7 +47,7 @@ clauses
 		borrar,
 		posicion,
 		reconocer.
-
+		
 	/* intentar encontrar objetos*/
 	reconocer:-
 		cursor(0,0),
@@ -56,7 +56,7 @@ clauses
 		purgar_puntos, /*borrar BD puntos*/
 		encontrar_cuadrado(0,0),
 		purgar_puntos.
-
+	
 	encontrar_triangulo(R,C):-
 		encontrar_punto(R,C,A,B),
 		es_triangulo(A,B),
@@ -64,14 +64,14 @@ clauses
 		C1= C+1,
 		encontrar_triangulo(A,C1).
 	encontrar_triangulo(_,_).
-
+	
 	es_triangulo(R,C):-
 		seguir_forma(R,C),
 		purgar(0,N),!,
 		N=2.
 	es_triangulo(_,_):-
 		purgar(0,_), fail.
-
+	
 	encontrar_cuadrado(R,C):-
 		encontrar_punto(R,C,A,B),
 		es_cuadrado(A,B),
@@ -79,29 +79,32 @@ clauses
 		C1 = C+1,
 		encontrar_cuadrado(A,C1).
 	encontrar_cuadrado(_,_).
-
+	
 	es_cuadrado(R,C):-
 		seguir_forma(R,C),
 		purgar(0,N),!,
 		N=3.
 	es_cuadrado(_,_):-
 		purgar(0,_),fail.
-
+	
 	encontrar_punto(A,B,R,C):-
 		scr_char(A,B,Ch),
 		Ch='*',
-		R= A, C=B.
+		R=A,C=B.
+	encontrar_punto(A,B,R,C):-
+		B1=B+1,
+		B1<80,!,
 		encontrar_punto(A,B1,R,C).
 	encontrar_punto(A,_,R,C):-
-		A1 = A+1,
-		A1 < 24,!,
+		A1=A+1,
+		A1<24,!,
 		encontrar_punto(A1,0,R,C).
 	encontrar_punto(_,_,_,_):-fail.
 
 /* Seguir un contorno hasta estar de vuelta en
    el punto inicial contando el numero de cambios
    de direccion */
-
+   
    	seguir_forma(R,C):-
    		assert(punto(R,C)),
    		R1 = R+1,
@@ -113,7 +116,7 @@ clauses
    		scr_char(R1,C1,Ch),
    		Ch='*',
    		seguir(R1,C1,1,1),!.
-
+   	
    	/* Seguir cada linea */
    	seguir(R,C,_,_):-
    		punto(Y,X),
@@ -134,20 +137,20 @@ clauses
    		scr_char(R1,C1,Ch),
    		Ch= '*',
    		seguir(R1,C1,I,J).
-
+   	
    	purgar(O,N):-
    		retract(cambios(_)),
    		N1 = O+1,
 		purgar(N1,N).
 	purgar(O,O).
-
+	
 	purgar_puntos:-
 		retract(punto(_,_)),
 		fail.
 	purgar_puntos.
-
+	
 	/* poner objetos en la pantalla */
-
+	
 	posicion:-
 		write("coordenadas para el triangulo isosceles: "),
 		readint(R), write(","), readint(C),
@@ -158,8 +161,8 @@ clauses
 		borrar,
 		hacer_triangulo(R,C,5),
 		hacer_cuadrado(R1,C1,5).
-		/* hacer_derecha_triangulo(R2,C2,10).*/
-
+		/*hacer_triangulo_rectangulo(R2,C2,10).*/
+	
 	hacer_triangulo(R,C,N):-
 		hacer_izquierda(R,C,N),
 		hacer_derecha(R,C,N),
@@ -186,12 +189,12 @@ clauses
 		R1= R+N,   C1=C-N,
 		cursor(R1,C1),
 		write("***********").
-
+	
 	hacer_triangulo_rectangulo(R,C,N):-
 		hacer_rt_izquierda(R,C1,N),
 		cursor(R,C),
 		write("**********").
-
+	
 	hacer_rt_izquierda(R,C,N):-
 		N<>0,
 		cursor(R,C),
@@ -209,19 +212,19 @@ clauses
 		N1 = N-1,
 		hacer_rt_derecha(R1,C1,N1).
 	hacer_rt_derecha(_,_,_).
-
+	
 	hacer_cuadrado(R,C,N):-
 		hacer_arriba_abajo(R,C,N),
 		hacer_izquierdalado(R,C,N),
 		hacer_derechalado(R,C,N).
-
+	
 	hacer_arriba_abajo(R,C,N):-
 		cursor(R,C),
 		write("**********"),
 		R1 = R+N,
 		cursor(R1,C),
 		write("**********").
-
+	
 	hacer_izquierdalado(R,C,N):-
 		N<>0,
 		cursor(R,C),
@@ -230,7 +233,7 @@ clauses
 		R1= R+1,
 		hacer_izquierdalado(R1,C,N1).
 	hacer_izquierdalado(_,_,_).
-
+	
 	hacer_derechalado(R,C,N):-
 		N<>0,
 		C1 =C+9,
@@ -240,6 +243,7 @@ clauses
 		R1=R+1,
 		hacer_derechalado(R1,C,N1).
 	hacer_derechalado(_,_,_).
-
+	
 	borrar:-
-		makewindow(1,6,0,"",0,0,25,80).
+		makewindow(1,6,0,"",0,0,25,80).							
+																																																											
