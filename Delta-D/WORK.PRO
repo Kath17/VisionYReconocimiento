@@ -160,8 +160,8 @@ clauses
 		readint(R1), readint(C1),
 		borrar,
 		hacer_triangulo(R,C,5),
-		hacer_cuadrado(R1,C1,5).
-		/*hacer_triangulo_rectangulo(R2,C2,10).*/
+		hacer_cuadrado(R1,C1,5),
+		hacer_triangulo_rectangulo(R2,C2,10).
 	
 	hacer_triangulo(R,C,N):-
 		hacer_izquierda(R,C,N),
@@ -186,12 +186,14 @@ clauses
 		hacer_derecha(R1,C1,N1).
 	hacer_derecha(_,_,_).
 	hacer_base(R,C,N):-
-		R1= R+N,   C1=C-N,
+		R1=R+N,   C1=C-N,
 		cursor(R1,C1),
 		write("***********").
 	
 	hacer_triangulo_rectangulo(R,C,N):-
-		hacer_rt_izquierda(R,C1,N),
+		hacer_rt_izquierda(R,C,N),
+		C1=C+9,
+		hacer_rt_derecha(R,C1,N),
 		cursor(R,C),
 		write("**********").
 	
@@ -199,17 +201,18 @@ clauses
 		N<>0,
 		cursor(R,C),
 		write("*"),
-		R1= R+1,
-		N1= N-1,
+		R1=R+1,
+		N1=N-1,
 		hacer_rt_izquierda(R1,C,N1).
 	hacer_rt_izquierda(_,_,_).
+	
 	hacer_rt_derecha(R,C,N):-
 		N<>0,
 		cursor(R,C),
 		write("*"),
-		R1 = R+1,
-		C1 = C-1,
-		N1 = N-1,
+		R1=R+1,
+		C1=C-1,
+		N1=N-1,
 		hacer_rt_derecha(R1,C1,N1).
 	hacer_rt_derecha(_,_,_).
 	
@@ -221,7 +224,7 @@ clauses
 	hacer_arriba_abajo(R,C,N):-
 		cursor(R,C),
 		write("**********"),
-		R1 = R+N,
+		R1=R+N,
 		cursor(R1,C),
 		write("**********").
 	
@@ -229,11 +232,10 @@ clauses
 		N<>0,
 		cursor(R,C),
 		write("*"),
-		N1= N-1,
-		R1= R+1,
+		N1=N-1,
+		R1=R+1,
 		hacer_izquierdalado(R1,C,N1).
 	hacer_izquierdalado(_,_,_).
-	
 	hacer_derechalado(R,C,N):-
 		N<>0,
 		C1 =C+9,

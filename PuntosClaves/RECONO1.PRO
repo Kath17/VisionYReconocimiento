@@ -10,9 +10,9 @@ predicates
 	hacer_arriba_abajo(integer,integer,integer)
 	hacer_derechalado(integer,integer,integer)
 	hacer_izquierdalado(integer,integer,integer)
+	hacer_triangulo_rectangulo(integer,integer,integer)
 	hacer_rt_izquierda(integer,integer,integer)
 	hacer_rt_derecha(integer,integer,integer)
-	hacer_triangulo_rectangulo(integer,integer,integer)
 	posicion
 	reconocer
 	encontrar_triangulo(integer,integer)
@@ -112,8 +112,8 @@ posicion:-
 	readint(R1),write(","),readint(C1),
 	borrar,
 	hacer_triangulo(R,C,5),
-	hacer_cuadrado(R1,C1,5).
-	hacer_triangulo(R2,C2,10). /* error aqui*/
+	hacer_cuadrado(R1,C1,5),
+	hacer_triangulo_rectangulo(R2,C2,10). /* error aqui*/
 
 hacer_triangulo(R,C,N):-
 	hacer_izquierda(R,C,N),
@@ -158,6 +158,7 @@ hacer_rt_izquierda(R,C,N):-
 	N1 = N - 1,
 	hacer_rt_izquierda(R1,C,N1).
 hacer_rt_izquierda(_,_,_).
+
 hacer_rt_derecha(R,C,N):-
 	N<>0,
 	cursor(R,C),
@@ -165,20 +166,19 @@ hacer_rt_derecha(R,C,N):-
 	R1 = R + 1,
 	C1 = C -1,
 	N1 = N - 1,
-	hacer_rt_derecha(R1,C,N1).
+	hacer_rt_derecha(R1,C1,N1).
 hacer_rt_derecha(_,_,_).
 
 hacer_cuadrado(R,C,N):-
 	hacer_arriba_abajo(R,C,N),
 	hacer_izquierdalado(R,C,N),
 	hacer_derechalado(R,C,N).
-
 hacer_arriba_abajo(R,C,N):-
 	cursor(R,C),
-	write("*********"),
+	write("**********"),
 	R1 = R + N,
 	cursor(R1,C),
-	write("*********").
+	write("**********").
 
 hacer_izquierdalado(R,C,N):-
 	N<>0,
