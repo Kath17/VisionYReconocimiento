@@ -58,11 +58,11 @@ clauses
 		R=A, C=B.
 	encontrar_punto(A,B,R,C):-
 		B1=B+1,
-		B1<80,
+		B1<80,!,
 		encontrar_punto(A,B1,R,C).
 	encontrar_punto(A,_,R,C):-
 		A1=A+1,
-		A1<20,
+		A1<20,!,
 		encontrar_punto(A1,0,R,C).
 	encontrar_punto(_,_,_,_):-fail.
 
